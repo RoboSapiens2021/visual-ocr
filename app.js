@@ -246,6 +246,43 @@ if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
   });
 }
 
+function onSaveHin() {
+  context.drawImage(video, 0, 0, 640, 480);
+
+  canvas.toBlob((blob) => {
+    //const timestamp = Date.now().toString();
+    const a = document.createElement("a");
+    document.body.append(a);
+
+    a.href = URL.createObjectURL(blob);
+    a.target = "_blank";
+    img = URL.createObjectURL(blob);
+
+    a.click();
+    console.log(img);
+    a.remove();
+
+    Tesseract.recognize(img, "hin", {
+      logger: (m) => console.log(m)
+    }).then(({ data: { text } }) => {
+      tts = text;
+      console.log(tts);
+
+      msg.volume = 1; // 0 to 1
+      msg.rate = 1; // 0.1 to 10
+      msg.pitch = 1.5; // 0 to 2
+      msg.text = tts;
+
+      const voice = speaks[0]; //47
+      console.log(`Voice: ${voice.name} and Lang: ${voice.lang}`);
+      msg.voiceURI = voice.name;
+      msg.lang = "hi-IN";
+
+      speechSynthesis.speak(msg);
+    });
+  });
+}
+
 function onSave() {
   context.drawImage(video, 0, 0, 640, 480);
 
