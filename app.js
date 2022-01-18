@@ -31,7 +31,11 @@ recognition.onresult = function (event) {
     onSave();
   } else if (command.toLowerCase() === "search") {
     onSave();
-  }
+
+  }else if (command.toLowerCase() === "read this") {
+    onSave();
+
+
 };
 
 recognition.onspeechend = function () {
