@@ -193,6 +193,7 @@ let speaks = [
       lang: "cs-CZ"
    }
 ];
+
 const msg = new SpeechSynthesisUtterance();
 
 var SpeechRecognition =
@@ -284,6 +285,9 @@ function onSaveHin() {
 }
 
 function onSave() {
+   canvas.getContext("2d").filter =
+      " blur(1px) saturate(500%) grayscale() brightness(100%) contrast(400%) ";
+
    context.drawImage(video, 0, 0, 640, 480);
 
    canvas.toBlob((blob) => {
@@ -316,6 +320,13 @@ function onSave() {
          msg.lang = "en-US";
 
          speechSynthesis.speak(msg);
+
+         const words = tts.split(" ");
+         console.log(words[3]);
       });
    });
+}
+
+function endSpeech() {
+   speechSynthesis.cancel();
 }
